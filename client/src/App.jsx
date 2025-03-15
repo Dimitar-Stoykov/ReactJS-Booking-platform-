@@ -3,6 +3,7 @@ import Navigation from "./components/header/Header"
 import Home from "./components/home/Home"
 import {Routes, Route} from 'react-router';
 import HotelListing from "./components/hotels/HotelListing";
+import HotelDetails from "./components/hotels/HotelDetails";
 
 
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} /> 
           <Route path="/about" element={<About /> } /> 
           <Route path="/destinations" element={<HotelListing /> } /> 
+          <Route path="/hotel/details" element={<HotelDetails /> } /> 
         </Routes> 
 
         </main>
