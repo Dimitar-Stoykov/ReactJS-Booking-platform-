@@ -5,6 +5,7 @@ import {Routes, Route} from 'react-router';
 import HotelListing from "./components/hotels/HotelListing";
 import HotelDetails from "./components/hotels/HotelDetails";
 import Profile from "./components/profile/Profile";
+import HotelCreate from "./components/hotels/hotelCreate/HotelCreate";
 
 
 
@@ -12,14 +13,15 @@ function App() {
   return ( 
     <>
     
-      <Navigation />
+      <Navigation /> 
       <main className="flex-1 min-h-screen">
         <Routes> 
           <Route path="/" element={<Home />} /> 
           <Route path="/about" element={<About /> } /> 
           <Route path="/destinations" element={<HotelListing /> } /> 
-          <Route path="/hotel/details" element={<HotelDetails /> } />
+          <Route path="/hotels/details" element={<HotelDetails /> } />
           <Route path="/profile" element={<Profile /> } /> 
+          <Route path="/hotels/create" element={<HotelCreate/> } /> 
         </Routes> 
 
         </main>

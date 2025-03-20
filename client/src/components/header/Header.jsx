@@ -10,7 +10,7 @@ const links = [
     { name: "Destinations", path: "/destinations", icon: <Hotel size={20} /> },
     { name: "Profile", path: "/profile", icon: <User size={20} /> },
     { name: "About", path: "/about", icon: <UsersRound size={20} /> },
-    { name: "Create Hotel", path: "/create", icon: <HousePlus size={20} /> },
+    { name: "Create Hotel", path: "hotels/create", icon: <HousePlus size={20} /> },
     { name: "Register", path: "/register", icon: <Logs size={20} /> },
     { name: "Log in", path: "/login", icon: <LogIn size={20} /> },
     { name: "Log out", path: "/logout", icon: <LogOut size={20} /> },
@@ -123,10 +123,6 @@ export default function Navigation() {
                     </div>
                 </div>
             )}
-
-            <div
-                className="fixed inset-0 bg-cover bg-center z-0"
-            ></div>
         </>
     );
 }

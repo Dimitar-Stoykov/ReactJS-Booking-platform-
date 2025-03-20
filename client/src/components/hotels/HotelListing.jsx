@@ -6,7 +6,7 @@ export default function HotelListing() {
     <div className="min-h-screen bg-gray-100 bg-gradient-to-br from-teal-100 to-blue-500 p-6">
       
       <div className="relative mt-0 w-full h-[300px] bg-cover bg-center" style={{
-         backgroundImage: "url('https://etimg.etb2bimg.com/photo/88350318.cms')" 
+         backgroundImage: "url('https://www.tourbookers.com/media/supplier_trips/lzslwyjv/lzslwyjv_gea3mjf9kf5paqct_lg.jpg')" 
          
         }}>
         
