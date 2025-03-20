@@ -4,6 +4,7 @@ import Home from "./components/home/Home"
 import {Routes, Route} from 'react-router';
 import HotelListing from "./components/hotels/HotelListing";
 import HotelDetails from "./components/hotels/HotelDetails";
+import Profile from "./components/profile/Profile";
 
 
 
@@ -17,7 +18,8 @@ function App() {
           <Route path="/" element={<Home />} /> 
           <Route path="/about" element={<About /> } /> 
           <Route path="/destinations" element={<HotelListing /> } /> 
-          <Route path="/hotel/details" element={<HotelDetails /> } /> 
+          <Route path="/hotel/details" element={<HotelDetails /> } />
+          <Route path="/profile" element={<Profile /> } /> 
         </Routes> 
 
         </main>

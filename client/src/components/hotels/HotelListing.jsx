@@ -10,11 +10,8 @@ export default function HotelListing() {
          
         }}>
         
-        <div className="absolute inset-0  bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-6">
+        <div className="absolute mb-8 inset-0  bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-6">
           <h1 className="text-5xl font-bold">Find Your Perfect Stay</h1>
-          <p className="text-lg mt-4 max-w-xl">
-            Discover luxurious hotels and resorts tailored to your dream vacation.
-          </p>
         </div>
       </div>
 
