@@ -45,15 +45,14 @@ export default function Navigation() {
 
     return (
         <>
-            {/* Navbar */}
             <nav
                 className={`fixed top-0 left-0 w-full rounded-b-lg shadow-lg flex justify-between items-center py-4 px-6 z-50 backdrop-blur-md bg-white/30 border-b border-white/20 transition-transform duration-300 ${isNavbarVisible ? "translate-y-0" : "-translate-y-full"
                     }`}
             >
-                {/* Logo on the left */}
+                
                 <div className="text-xl font-bold text-purple-600">BookEase</div>
 
-                {/* Desktop Navbar Links */}
+                
                 <div className="hidden md:flex justify-around items-center gap-10">
                     {links.map((link) => (
                         <NavLink
@@ -87,7 +86,7 @@ export default function Navigation() {
                     ))}
                 </div>
 
-                {/* Mobile Hamburger Icon */}
+                
                 <div className="md:hidden flex items-center">
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-500">
                         <BarChart2 size={24} />

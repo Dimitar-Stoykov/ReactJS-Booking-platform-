@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Camera, MapPin, CheckCircle } from "lucide-react";
 
 export default function HotelCreate() {
   const [form, setForm] = useState({
@@ -11,6 +10,7 @@ export default function HotelCreate() {
     city: "",
     photos: [],
     currentPhotoUrl: "",
+    maxGuests: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -203,6 +203,18 @@ export default function HotelCreate() {
               value={form.city}
               onChange={handleInputChange}
               placeholder="Enter City"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+          </div>
+          {/* Max Guests */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Max Guests</label>
+            <input
+              type="number"
+              name="maxGuests"
+              value={form.maxGuests}
+              onChange={handleInputChange}
+              placeholder="Enter maximum number of guests"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
             />
           </div>
