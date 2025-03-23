@@ -11,6 +11,7 @@ export default function HotelCreate() {
         amenities: [],
         roomDetails: "",
         address: "",
+        country: "",
         city: "",
         photos: [],
         currentPhotoUrl: "",
@@ -59,13 +60,18 @@ export default function HotelCreate() {
             setIsSubmitting(false);
             setForm({
                 hotelName: "",
+                generalPhoto: "",
                 description: "",
+                title: "",
                 amenities: [],
                 roomDetails: "",
                 address: "",
+                country: "",
                 city: "",
                 photos: [],
                 currentPhotoUrl: "",
+                maxGuests: "",
+                price: "",
             });
         }, 2000);
     };
@@ -223,6 +229,19 @@ export default function HotelCreate() {
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             rows="3"
                         ></textarea>
+                    </div>
+
+                    {/* Country */}
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-2">Country</label>
+                        <input
+                            type="text"
+                            name="country"
+                            value={form.country}
+                            onChange={handleInputChange}
+                            placeholder="Enter City"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        />
                     </div>
 
                     {/* Address */}

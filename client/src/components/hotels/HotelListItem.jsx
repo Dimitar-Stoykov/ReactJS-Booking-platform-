@@ -9,7 +9,7 @@ export default function HotelListItem() {
                 const result = await response.json();
                 setHotels(result);
             })();
-        }, [])
+        }, [hotels])
 
 
 
@@ -18,7 +18,7 @@ export default function HotelListItem() {
             {hotels.map((hotel) => (
                 <div key={hotel.hotelName} className="bg-white rounded-3xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl duration-300 w-full max-w-xs mx-auto">
                     <img
-                        src={hotel?.photos[0]}
+                        src={hotel.generalPhoto}
                         alt="Hotel"
                         className="w-full h-56 object-cover rounded-t-3xl"
                     />
@@ -26,7 +26,7 @@ export default function HotelListItem() {
                         <h2 className="text-2xl font-semibold text-blue-700 mb-2"> {hotel.hotelName} </h2>
                         <p className="text-md text-gray-600 mb-3">{hotel.city} {hotel.address}</p>
                         <p className="text-gray-700 text-sm mb-3">
-                            Enjoy a premium stay with breathtaking views and world-class amenities.
+                            {hotel.title}
                         </p>
 
                         <div className="flex justify-between items-center">
