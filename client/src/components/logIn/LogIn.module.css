@@ -1,0 +1,158 @@
+/* Wrapper */
+.wrapper {
+  font-family: "Arial", sans-serif;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: url("https://thumbs.dreamstime.com/b/maldives-beach-landscape-background-wallpaper-design-tourism-summer-vacation-holiday-destination-concept-beautiful-106355288.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Login Box */
+.loginBox {
+  background: rgba(255, 255, 255, 0.7); /* More transparency */
+  padding: 50px;
+  border-radius: 25px;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px; /* Slightly bigger */
+  text-align: center;
+  backdrop-filter: blur(15px); /* Stronger blur effect */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.loginBox:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Title */
+.loginTitle {
+  font-size: 34px;
+  font-weight: 700;
+  color: #0052cc; /* Deep Blue */
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Input Fields */
+.inputGroup {
+  position: relative;
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+/* Floating Label */
+.inputLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0052cc;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+/* Input Field */
+.inputField {
+  width: 100%;
+  padding: 18px 16px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 18px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.inputField:focus {
+  border-color: #0052cc;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(0, 82, 204, 0.4);
+}
+
+/* Label Floating Effect */
+.inputField:focus ~ .inputLabel,
+.inputField:not(:placeholder-shown) ~ .inputLabel {
+  top: -16px;
+  left: 10px;
+  font-size: 14px;
+  color: #0052cc;
+  opacity: 1;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+
+/* Login Button */
+.loginBtn {
+  width: 100%;
+  background: linear-gradient(90deg, #81c8ee, #0052cc);
+  color: white;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 82, 204, 0.2);
+}
+
+.loginBtn:hover {
+  background: linear-gradient(90deg, #0052cc, #81c8ee);
+  box-shadow: 0 8px 20px rgba(0, 82, 204, 0.3);
+  transform: translateY(-3px);
+}
+
+.loginBtn:active {
+  transform: translateY(1px);
+}
+
+/* Forgot Password */
+.forgotPassword {
+  display: block;
+  margin-top: 20px;
+  color: #0052cc;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.forgotPassword:hover {
+  color: #81c8ee;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .loginBox {
+    padding: 40px;
+  }
+
+  .loginTitle {
+    font-size: 30px;
+  }
+
+  .inputField {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .loginBtn {
+    padding: 14px;
+    font-size: 18px;
+  }
+}

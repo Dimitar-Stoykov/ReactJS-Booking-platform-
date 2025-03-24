@@ -6,6 +6,7 @@ import HotelListing from "./components/hotels/HotelListing";
 import HotelDetails from "./components/hotels/HotelDetails";
 import Profile from "./components/profile/Profile";
 import HotelCreate from "./components/hotels/hotelCreate/HotelCreate";
+import Login from "./components/logIn/LogIn";
 
 
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/hotels/details" element={<HotelDetails /> } />
           <Route path="/profile" element={<Profile /> } /> 
           <Route path="/hotels/create" element={<HotelCreate/> } /> 
+          <Route path='/login' element={<Login />} /> 
         </Routes> 
 
         </main>

@@ -24,7 +24,10 @@ export default function HotelListItem() {
                     />
                     <div className="p-4">
                         <h2 className="text-2xl font-semibold text-blue-700 mb-2"> {hotel.hotelName} </h2>
-                        <p className="text-md text-gray-600 mb-3">{hotel.city} {hotel.address}</p>
+                        <p className="text-md text-gray-600 mb-3">
+                            {[hotel.country, hotel.city, hotel.address].filter(Boolean).join(", ")}
+                        </p>
+                        
                         <p className="text-gray-700 text-sm mb-3">
                             {hotel.title}
                         </p>
