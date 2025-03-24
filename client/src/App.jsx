@@ -1,12 +1,14 @@
+import {Routes, Route} from 'react-router';
+
 import About from "./components/about/About";
 import Navigation from "./components/header/Header"
 import Home from "./components/home/Home"
-import {Routes, Route} from 'react-router';
 import HotelListing from "./components/hotels/HotelListing";
 import HotelDetails from "./components/hotels/HotelDetails";
 import Profile from "./components/profile/Profile";
 import HotelCreate from "./components/hotels/hotelCreate/HotelCreate";
 import Login from "./components/logIn/LogIn";
+import Register from "./components/register/Register";
 
 
 
@@ -24,6 +26,7 @@ function App() {
           <Route path="/profile" element={<Profile /> } /> 
           <Route path="/hotels/create" element={<HotelCreate/> } /> 
           <Route path='/login' element={<Login />} /> 
+          <Route path="/register" element={<Register /> } /> 
         </Routes> 
 
         </main>

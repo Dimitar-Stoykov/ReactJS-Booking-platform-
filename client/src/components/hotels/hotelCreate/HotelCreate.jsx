@@ -78,14 +78,14 @@ export default function HotelCreate() {
 
     return (
         <div
-            className="min-h-screen pt-10 pb-10 flex justify-center items-center bg-cover bg-center"
-            style={{
+            className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-500 flex items-center justify-center p-6"
+     /*        style={{
                 backgroundImage: "url('https://i.ytimg.com/vi/I_2sAr9hIuc/hq720.jpg?v=661f514f&sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCvvHhQ1dG7DbqRMafUALta8OwEDQ')", // Replace with your image URL
-            }}
+            }} */
         >
-            <div className="relative w-full max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-xl z-10 border border-gray-300">
+            <div className="relative w-full max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-xl z-10 border border-gray-300 m-20">
                 <h2 className="text-4xl font-serif font-semibold text-gray-800 mb-8 text-center">Create Hotel</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6 ">
                     {/* Hotel Photos (URL Input) */}
                     <div className="flex flex-col items-center">
                         <label className="block text-gray-700 font-medium mb-2">General Photo</label>

@@ -1,0 +1,166 @@
+
+.wrapper {
+    font-family: "Arial", sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url("https://img.freepik.com/free-photo/blue-villa-beautiful-sea-hotel_1203-5316.jpg?t=st=1742826937~exp=1742830537~hmac=94ca0ee64aab737668ca3b6e0fd03f14f91a094b937cd4b434c69456230a2266&w=1380");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 80px;
+    
+  }
+  
+  .registerBox {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease-in-out;
+    margin: 0;
+    
+
+  }
+  
+
+  .registerBox:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .registerTitle {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0052cc;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+
+  .inputGroup {
+    position: relative;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+  
+
+  .inputLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0052cc;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+  }
+  
+
+  .inputField {
+    width: 100%;
+    padding: 18px 16px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    font-size: 18px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    margin-bottom: 15px;
+  }
+  
+  .inputField:focus {
+    border-color: #0052cc;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 82, 204, 0.4);
+  }
+  
+
+  .inputField:focus ~ .inputLabel,
+  .inputField:not(:placeholder-shown) ~ .inputLabel {
+    top: -20px;
+    left: 8px;
+    font-size: 14px;
+    color: #0052cc;
+    opacity: 1;
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+  
+
+  .registerBtn {
+    width: 100%;
+    background: linear-gradient(90deg, #81c8ee, #0052cc);
+    color: white;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 82, 204, 0.2);
+  }
+  
+  .registerBtn:hover {
+    background: linear-gradient(90deg, #0052cc, #81c8ee);
+    box-shadow: 0 8px 20px rgba(0, 82, 204, 0.3);
+    transform: translateY(-3px);
+  }
+  
+  .registerBtn:active {
+    transform: translateY(1px);
+  }
+  
+ 
+  .switchForm {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #0052cc;
+  }
+  
+  .switchForm a {
+    color: #81c8ee;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .switchForm a:hover {
+    text-decoration: underline;
+    color: #0052cc;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .registerBox {
+      padding: 40px;
+    }
+  
+    .registerTitle {
+      font-size: 30px;
+    }
+  
+    .inputField {
+      padding: 14px;
+      font-size: 16px;
+    }
+  
+    .registerBtn {
+      padding: 14px;
+      font-size: 18px;
+    }
+  }
+  

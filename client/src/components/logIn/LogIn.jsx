@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./Login.module.css"; // Import CSS module
+import styles from "./Login.module.css"; 
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
