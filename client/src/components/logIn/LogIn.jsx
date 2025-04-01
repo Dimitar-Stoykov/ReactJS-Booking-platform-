@@ -1,14 +1,14 @@
 import styles from "./Login.module.css";
 
 
-import { useActionState, useContext } from "react";
-import { useNavigate } from "react-router";
-import { UserContext } from "../../contexts/UserContext";
+import { useActionState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useUserContext } from "../../contexts/UserContext";
 import { useLogin } from "../../API/userAPI";
 
 export default function Login() {
     const navigate   = useNavigate();
-    const { userLoginHandler } = useContext(UserContext);
+    const { userLoginHandler } = useUserContext();
     const { login } = useLogin();
 
     const loginHandler = async (_ ,formData) => { 
@@ -16,13 +16,13 @@ export default function Login() {
 
         try { 
             const authData = await login(data.email, data.password);
-
-            userLoginHandler(authData);
-
-            console.log(authData);
+            
+            const { password, ...newAuthData} = authData;
+            
+            userLoginHandler(newAuthData);
             
 
-            navigate(-1);
+            navigate("/");
         } catch (err) { 
             console.error(err.message)
         }
@@ -60,7 +60,7 @@ export default function Login() {
                     </div>
 
                     <button type="submit" className={styles.loginBtn}>Login</button>
-                    <a href="#" className={styles.forgotPassword}>Forgot Password?</a>
+                    <Link to="/register" className={styles.register}>Don`t have an account?</Link>
                 </form>
             </div>
         </div>
