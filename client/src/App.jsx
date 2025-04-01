@@ -12,6 +12,7 @@ import HotelCreate from "./components/hotels/hotelCreate/HotelCreate";
 import Login from "./components/logIn/LogIn";
 import Register from "./components/register/Register";
 import UserProvider from './providers/UserProvider';
+import Logout from './components/logout/Logout';
 
 
 
@@ -31,6 +32,7 @@ function App() {
                             <Route path="/profile" element={<Profile />} />
                             <Route path='/login' element={<Login />} />
                             <Route path="/register" element={<Register />} />
+                            <Route path="/logout" element={<Logout/> } /> 
                         </Routes>
                     </HotelProvider>
                 </main>
