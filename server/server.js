@@ -1346,58 +1346,28 @@
     	}
     };
     var seedData = {
-    	recipes: {
-    		"3987279d-0ad4-4afb-8ca9-5b256ae3b298": {
-    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
-    			name: "Easy Lasagna",
-    			img: "assets/lasagna.jpg",
-    			ingredients: [
-    				"1 tbsp Ingredient 1",
-    				"2 cups Ingredient 2",
-    				"500 g  Ingredient 3",
-    				"25 g Ingredient 4"
-    			],
-    			steps: [
-    				"Prepare ingredients",
-    				"Mix ingredients",
-    				"Cook until done"
-    			],
-    			_createdOn: 1613551279012
-    		},
-    		"8f414b4f-ab39-4d36-bedb-2ad69da9c830": {
-    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
-    			name: "Grilled Duck Fillet",
-    			img: "assets/roast.jpg",
-    			ingredients: [
-    				"500 g  Ingredient 1",
-    				"3 tbsp Ingredient 2",
-    				"2 cups Ingredient 3"
-    			],
-    			steps: [
-    				"Prepare ingredients",
-    				"Mix ingredients",
-    				"Cook until done"
-    			],
-    			_createdOn: 1613551344360
-    		},
-    		"985d9eab-ad2e-4622-a5c8-116261fb1fd2": {
-    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
-    			name: "Roast Trout",
-    			img: "assets/fish.jpg",
-    			ingredients: [
-    				"4 cups Ingredient 1",
-    				"1 tbsp Ingredient 2",
-    				"1 tbsp Ingredient 3",
-    				"750 g  Ingredient 4",
-    				"25 g Ingredient 5"
-    			],
-    			steps: [
-    				"Prepare ingredients",
-    				"Mix ingredients",
-    				"Cook until done"
-    			],
-    			_createdOn: 1613551388703
-    		}
+    	hotels: {
+                "1fc04451-7fe4-4e7a-bb9c-ff9c8807705e": {
+                    _ownerId: "60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+                    generalPhoto: "https://www.hilton.com/im/en/PGVNCHF/3365046/hilton-greenville-exterior-1194084.jpg?impolicy=crop&cw=6000&ch=3359&gravity=NorthWest&xposition=0&yposition=320&rw=768&rh=430",
+                    hotelName: "Hilton",
+                    title: "Book you emotion with variety of rooms and comfort",
+                    description: "nice hotel",
+                    amenities: [
+                        "best",
+                        "good"
+                    ],
+                    roomDetails: "abnormal",
+                    address: "somewwhere",
+                    city: "sofia",
+                    photos: [
+                        "https://images.trvl-media.com/lodging/1000000/30000/24300/24224/30951071.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill"
+                    ],
+                    maxGuests: "4",
+                    price: "120",
+                    _createdOn: 1742834141568,
+                    _id: "1fc04451-7fe4-4e7a-bb9c-ff9c8807705e"
+                },
     	},
     	comments: {
     		"0a272c58-b7ea-4e09-a000-7ec988248f66": {
@@ -1408,58 +1378,7 @@
     			_id: "0a272c58-b7ea-4e09-a000-7ec988248f66"
     		}
     	},
-    	records: {
-    		i01: {
-    			name: "John1",
-    			val: 1,
-    			_createdOn: 1613551388703
-    		},
-    		i02: {
-    			name: "John2",
-    			val: 1,
-    			_createdOn: 1613551388713
-    		},
-    		i03: {
-    			name: "John3",
-    			val: 2,
-    			_createdOn: 1613551388723
-    		},
-    		i04: {
-    			name: "John4",
-    			val: 2,
-    			_createdOn: 1613551388733
-    		},
-    		i05: {
-    			name: "John5",
-    			val: 2,
-    			_createdOn: 1613551388743
-    		},
-    		i06: {
-    			name: "John6",
-    			val: 3,
-    			_createdOn: 1613551388753
-    		},
-    		i07: {
-    			name: "John7",
-    			val: 3,
-    			_createdOn: 1613551388763
-    		},
-    		i08: {
-    			name: "John8",
-    			val: 2,
-    			_createdOn: 1613551388773
-    		},
-    		i09: {
-    			name: "John9",
-    			val: 3,
-    			_createdOn: 1613551388783
-    		},
-    		i10: {
-    			name: "John10",
-    			val: 1,
-    			_createdOn: 1613551388793
-    		}
-    	},
+    	
     	catches: {
     		"07f260f4-466c-4607-9a33-f7273b24f1b4": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",

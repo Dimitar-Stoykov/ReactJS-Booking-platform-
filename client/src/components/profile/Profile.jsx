@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, CalendarCheck, Settings, Trash2, Info, BarChart2 } from "lucide-react";
+import { User, CalendarCheck, Trash2, Info, BarChart2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Profile() {

@@ -1,24 +1,14 @@
-import { useEffect, useState } from "react";
+import { useHotelsContext } from "../../../contexts/HotelContext";
+
+
 
 export default function HotelListItem() {
-        const [hotels, setHotels] = useState([]);
-
-        useEffect(() => { 
-            (async () => { 
-                const response = await fetch('http://localhost:3030/data/hotels');
-                const result = await response.json();
-                if (result.length > 0){
-                    setHotels(result);
-                }
-            })();
-        }, [])
-
-
+        const { hotels } = useHotelsContext();
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hotels.length > 0 ? (hotels.map((hotel) => (
-                <div key={hotel.hotelName} className="bg-white rounded-3xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl duration-300 w-full max-w-xs mx-auto">
+            {hotels?.length > 0 ? (hotels.map((hotel) => (
+                <div key={hotel._id} className="bg-white rounded-3xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl duration-300 w-full max-w-xs mx-auto">
                     <img
                         src={hotel.generalPhoto}
                         alt="Hotel"

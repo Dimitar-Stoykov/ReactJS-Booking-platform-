@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Camera, XCircle } from "lucide-react";
+import { Camera} from "lucide-react";
 
 
 export default function HotelCreate() {

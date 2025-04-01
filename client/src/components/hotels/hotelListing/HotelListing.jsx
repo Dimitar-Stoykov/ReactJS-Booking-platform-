@@ -1,5 +1,5 @@
 import HotelListItem from "./HotelListItem";
-import HotelSearch from "./HotelSearch";
+import HotelSearch from "../HotelSearch";
 
 export default function HotelListing() {
   return (
