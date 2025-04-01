@@ -1,54 +1,68 @@
-import { useState } from "react";
-import styles from "./Login.module.css"; 
+import styles from "./Login.module.css";
+
+
+import { useActionState, useContext } from "react";
+import { useNavigate } from "react-router";
+import { UserContext } from "../../contexts/UserContext";
+import { useLogin } from "../../API/userAPI";
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+    const navigate   = useNavigate();
+    const { userLoginHandler } = useContext(UserContext);
+    const { login } = useLogin();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    const loginHandler = async (_ ,formData) => { 
+        const data = Object.fromEntries(formData);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login submitted:", formData);
-  };
+        try { 
+            const authData = await login(data.email, data.password);
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.loginBox}>
-        <h2 className={styles.loginTitle}>Welcome Back</h2>
-        
-        <form onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder=" "
-              value={formData.email}
-              onChange={handleChange}
-              className={styles.inputField}
-            />
-            <label className={styles.inputLabel}>Email</label>
-          </div>
+            userLoginHandler(authData);
 
-          <div className={styles.inputGroup}>
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder=" "
-              value={formData.password}
-              onChange={handleChange}
-              className={styles.inputField}
-            />
-            <label className={styles.inputLabel}>Password</label>
-          </div>
+            console.log(authData);
+            
 
-          <button type="submit" className={styles.loginBtn}>Login</button>
-          <a href="#" className={styles.forgotPassword}>Forgot Password?</a>
-        </form>
-      </div>
-    </div>
-  );
+            navigate(-1);
+        } catch (err) { 
+            console.error(err.message)
+        }
+    };
+
+
+    const [_, loginAction, isPending] = useActionState(loginHandler, {email: '', password: ' '});
+    
+
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.loginBox}>
+                <h2 className={styles.loginTitle}>Welcome Back</h2>
+
+                <form action={loginAction}>
+                    <div className={styles.inputGroup}>
+                        <input className={styles.inputField}
+                            type="email"
+                            name="email"
+                            placeholder=""
+                            required
+                        />
+                        <label className={styles.inputLabel}>Email</label>
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder=""
+                            required
+                            className={styles.inputField}
+                        />
+                        <label className={styles.inputLabel}>Password</label>
+                    </div>
+
+                    <button type="submit" className={styles.loginBtn}>Login</button>
+                    <a href="#" className={styles.forgotPassword}>Forgot Password?</a>
+                </form>
+            </div>
+        </div>
+    );
 }

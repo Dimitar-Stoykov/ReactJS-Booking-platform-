@@ -3,7 +3,7 @@ import usePersistedState from "../hooks/usePersistedState";
 
 
 export default function UserProvider({
-    children
+    children,
 }) {
 
     const [authData, setAuthData] = usePersistedState('auth', {});

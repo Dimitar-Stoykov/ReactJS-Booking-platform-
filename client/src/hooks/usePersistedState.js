@@ -5,21 +5,32 @@ export default function usePersistedState(stateKey, initialState) {
     const [state, setState] = useState (() => { 
         const persistedState = localStorage.getItem(stateKey);
 
-        if (!persistedState) { 
+        try {
+            const persistedState = localStorage.getItem(stateKey);
+
+            if (!persistedState) { 
+                return typeof initialState === "function"
+                    ? initialState()
+                    : initialState;
+            }
+
+            return JSON.parse(persistedState);
+
+
+        } catch (error) {
+            console.error(`Error parsing ${stateKey} from localStorage:`, error);
+            localStorage.removeItem(stateKey);
             return typeof initialState === "function"
                 ? initialState()
                 : initialState;
         }
 
-        const persistedStateData = JSON.parse(persistedState);
-
-        return persistedStateData;
     });
 
     const setPersistedState = (input) => { 
         const data = typeof input === "function"
             ? input(state)
-            :input;
+            : input;
 
         const persistedData = JSON.stringify(data);
 
