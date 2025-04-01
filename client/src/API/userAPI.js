@@ -13,7 +13,7 @@ export const useLogin = () => {
             `${baseUrl}/login`,
             {email, password},
         );
-        console.log(response);
+       
         return response
     }
 
