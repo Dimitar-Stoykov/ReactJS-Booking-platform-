@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useTreeHotels } from "../../API/hotelsAPI";
 
 export default function Home() {
@@ -24,29 +25,30 @@ export default function Home() {
                                 key={hotel._id}
                                 className="bg-gradient-to-t from-black/50 via-black/50 to-transparent p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/30"
                             >
-                                {/* Image Container */}
+                              
                                 <div className="relative">
                                     <img
                                         src={hotel.generalPhoto}
                                         alt={hotel.city}
                                         className="w-full h-56 object-cover rounded-xl"
                                     />
-                                    <div className="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 text-sm rounded-full shadow-md">
+                                    <div className="absolute top-3 left-3 bg-indigo-600 text-white px-4 py-2 text-lg font-bold rounded-full shadow-lg">
                                         {hotel.city}
                                     </div>
                                 </div>
 
-                                {/* Hotel Info */}
+                              
                                 <div className="mt-4 text-center">
                                     <h3 className="text-2xl font-semibold text-white">{hotel.hotelName}</h3>
                                     <p className="text-lg text-white/80 mt-2">{hotel.title}</p>
                                     <span className="block mt-3 text-indigo-200 font-bold">${hotel.price} / night</span>
                                 </div>
 
-                                {/* Book Now Button */}
+                                <Link to={`/hotels/${hotel._id}/details`} >
                                 <button className="mt-5 px-6 py-2 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-all duration-300">
                                     Book Now
                                 </button>
+                                </Link>
                             </div>
                         ))}
                     </div>

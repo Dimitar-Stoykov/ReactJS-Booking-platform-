@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import request from "../utils/request";
-import { BsPass } from "react-icons/bs";
 
 
 const baseUrl = "http://localhost:3030/data/hotels";
@@ -16,6 +15,24 @@ export const useHotels = () => {
 
     return {hotels, setHotels};
 };
+
+export const useHotel = (hotelId) => { 
+    const [hotel, setHotel] = useState();
+
+    useEffect(() => {
+        (async () => { 
+            const result = await request.get(`${baseUrl}/${hotelId}`);
+            setHotel(result)
+
+        })();
+    
+
+    }, [hotelId])
+
+    return  hotel ;
+}
+
+
 
 export const useTreeHotels = () => {
     const [latestTreeHotels, setLatestTreeHotels] = useState([]);
