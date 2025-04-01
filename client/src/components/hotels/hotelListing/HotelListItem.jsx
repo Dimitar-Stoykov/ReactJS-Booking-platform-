@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useHotelsContext } from "../../../contexts/HotelContext";
 
 
@@ -26,7 +27,7 @@ export default function HotelListItem() {
 
                         <div className="flex justify-between items-center">
                             <span className="text-lg font-bold text-indigo-600">${hotel.price}/night</span>
-                            <button className="bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700 transition duration-300">Book Now</button>
+                            <Link to={`/hotels/${hotel._id}/details`}> <button className="bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700 transition duration-300">Book Now</button> </Link>
                         </div>
                     </div>
                 </div>

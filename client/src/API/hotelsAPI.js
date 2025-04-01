@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import request from "../utils/request";
+import { BsPass } from "react-icons/bs";
 
 
 const baseUrl = "http://localhost:3030/data/hotels";
@@ -23,7 +24,7 @@ export const useTreeHotels = () => {
         const searchParams = new URLSearchParams({
             sortBy: '_createdOn desc',
             pageSize: 3,
-            select: '_id,generalPhoto,title,hotelName,city',
+            select: '_id,generalPhoto,title,hotelName,city,price',
         });
 
         request.get(`${baseUrl}?${searchParams.toString()}`)
@@ -35,12 +36,6 @@ export const useTreeHotels = () => {
 
 
 export const useCreateHotel = (hotelData) => { 
-    const  { setHotels } = useHotels();
-
-    const addHotelHandler = async () => {
-        
-        const response = await request.post(baseUrl, hotelData);
-        setHotels((prevState) => [...prevState, response]);
-
-    }
+    return
+    
 } 

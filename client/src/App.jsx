@@ -34,7 +34,7 @@ function App() {
                             </Route>
                             <Route element={ <AuthGuard/> }>
                                 <Route path="/destinations" element={<HotelListing />} />
-                                <Route path="/hotels/details" element={<HotelDetails />} />
+                                <Route path="/hotels/:hotelId/details" element={<HotelDetails />} />
                                 <Route path="/hotels/create" element={<HotelCreate />} />
                                 <Route path="/profile" element={<Profile />} />
                                 <Route path="/logout" element={<Logout/> } /> 
