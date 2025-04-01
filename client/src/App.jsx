@@ -13,6 +13,8 @@ import Login from "./components/logIn/LogIn";
 import Register from "./components/register/Register";
 import UserProvider from './providers/UserProvider';
 import Logout from './components/logout/Logout';
+import AuthGuard from './components/guards/AuthGuard';
+import GuestGuard from './components/guards/GuestGuard';
 
 
 
@@ -26,13 +28,17 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/about" element={<About />} />
-                            <Route path="/destinations" element={<HotelListing />} />
-                            <Route path="/hotels/details" element={<HotelDetails />} />
-                            <Route path="/hotels/create" element={<HotelCreate />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path='/login' element={<Login />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/logout" element={<Logout/> } /> 
+                            <Route element={ <GuestGuard/> }>
+                                <Route path='/login' element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                            </Route>
+                            <Route element={ <AuthGuard/> }>
+                                <Route path="/destinations" element={<HotelListing />} />
+                                <Route path="/hotels/details" element={<HotelDetails />} />
+                                <Route path="/hotels/create" element={<HotelCreate />} />
+                                <Route path="/profile" element={<Profile />} />
+                                <Route path="/logout" element={<Logout/> } /> 
+                            </Route>
                         </Routes>
                     </HotelProvider>
                 </main>
