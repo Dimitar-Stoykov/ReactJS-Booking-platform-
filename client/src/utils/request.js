@@ -29,6 +29,9 @@ const request = async (method, url, data, options = {}) => {
     try { 
         const response = await fetch(url, options);
         const responseContentType = response.headers.get('Content-Type');
+        if (response.status === 304) {
+            return {}; 
+        }
         const result = await response.json();
 
         if (!responseContentType) {

@@ -1,6 +1,4 @@
 import { Routes, Route } from 'react-router';
-import { HotelProvider } from './providers/HotelProvider';
-
 
 import About from "./components/about/About";
 import Navigation from "./components/header/Header"
@@ -24,7 +22,7 @@ function App() {
             <UserProvider> 
                 <Navigation />
                 <main className="flex-1 min-h-screen">
-                    <HotelProvider>
+                    
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/about" element={<About />} />
@@ -40,7 +38,7 @@ function App() {
                                 <Route path="/logout" element={<Logout/> } /> 
                             </Route>
                         </Routes>
-                    </HotelProvider>
+                   
                 </main>
 
                 </UserProvider> 

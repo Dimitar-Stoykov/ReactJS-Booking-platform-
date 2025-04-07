@@ -14,7 +14,6 @@ export const HotelContext = createContext({
     currentPhotoUrl: "",
     maxGuests: "",
     price: "",
-    addHotel: () => null,
 });
 
 

@@ -4,9 +4,27 @@ import request from "../utils/request";
 
 const baseUrl = "http://localhost:3030/data/hotels";
 
-export const useHotels = () => { 
-    return request.get(baseUrl);
-      
+export const useHotels = async (skip, pageSize, searchParams = {}) => {
+    try {
+        
+        const params = new URLSearchParams({
+            offset: skip,
+            pageSize: pageSize,
+        });
+
+        const response = await fetch(`${baseUrl}?${params.toString()}`);
+        
+        if (!response.ok) {
+            throw new Error("Failed to fetch hotels");
+        }
+        
+        const data = await response.json(); 
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching hotels:", error);
+        throw error; 
+    }
 };
 
 export const useHotel = (hotelId) => { 
