@@ -21,6 +21,7 @@ export default function Navigation() {
     const authLinks = [
         { name: "Home", path: "/", icon: <Home size={20} /> },
         { name: "Destinations", path: "/destinations", icon: <Hotel size={20} /> },
+        { name: "About", path: "/about", icon: <UsersRound size={20} /> },
         { name: "Profile", path: "/profile", icon: <User size={20} /> },
         { name: "Create Hotel", path: "/hotels/create", icon: <HousePlus size={20} /> },
         { name: "Log out", path: "/logout", icon: <LogOut size={20} /> },

@@ -5,15 +5,8 @@ import request from "../utils/request";
 const baseUrl = "http://localhost:3030/data/hotels";
 
 export const useHotels = () => { 
-    const [hotels, setHotels] = useState([]);
-
-    useEffect(() => {
-        
-            request.get(baseUrl).then(setHotels);
+    return request.get(baseUrl);
       
-    }, []);
-
-    return {hotels, setHotels};
 };
 
 export const useHotel = (hotelId) => { 

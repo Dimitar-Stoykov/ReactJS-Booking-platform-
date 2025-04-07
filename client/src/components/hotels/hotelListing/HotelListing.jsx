@@ -1,7 +1,11 @@
 import HotelListItem from "./HotelListItem";
 import HotelSearch from "../HotelSearch";
+import { useHotelsContext } from "../../../contexts/HotelContext";
 
 export default function HotelListing() {
+   const { hotels } = useHotelsContext();
+
+  console.log(hotels);
   return (
     <div className="min-h-screen bg-gray-100 bg-gradient-to-br from-teal-100 to-blue-500 p-6">
       
@@ -18,7 +22,7 @@ export default function HotelListing() {
       
       <HotelSearch /> 
 
-      <HotelListItem /> 
+      <HotelListItem hotels={hotels}/> 
       
     </div>
   );
