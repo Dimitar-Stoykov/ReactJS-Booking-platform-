@@ -80,3 +80,32 @@ export const useCreateHotel = () => {
         createHotel,
     }
 } 
+
+export const useOwnHotels = () => { 
+
+    const getHotels = async (userId) => { 
+        const params = new URLSearchParams();
+        params.append('where', `_ownerId="${userId}"`);
+        const result  = await request.get(`${baseUrl}?${params.toString()}`);
+        return result;
+       
+    }
+
+    return {
+        getHotels,
+    }
+}
+
+
+export const useDeleteHotel = () => { 
+
+const deleteHotel = (hotelId) => { 
+     request.delete(`${baseUrl}/${hotelId}`)
+   
+}
+
+return { 
+    deleteHotel,
+}
+
+}

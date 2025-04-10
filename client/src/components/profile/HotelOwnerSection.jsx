@@ -1,20 +1,35 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
 import { Info, Trash2 } from "lucide-react";
+import { useOwnHotelsList } from "../../hooks/useOwnHotels";
+import { useDeleteHotel } from "../../API/hotelsAPI";
+
+
 
 export default function HotelOwnerSection() {
-  const [hotels, setHotels] = useState([
-    { id: 1, name: "Grand Resort", image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/370564672.jpg?k=4f37af06c05a6f5dfc7db5e8e71d2eb66cae6eec36af7a4a4cd7a25d65ceb941&o=&hp=1", location: "Malibu" },
-    { id: 2, name: "Beach Paradise", image: "https://3.imimg.com/data3/JV/KJ/MY-15827078/hotels-booking.jpg", location: "Hawaii" },
-    { id: 3, name: "Mountain Retreat", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKN4wL0OVMx2QzZtO1-rrZO-Sn1o8-pK7H6A&s", location: "Colorado" },
-  ]);
+  const {onwHotels: hotels, setOwnHotels: setHotels} = useOwnHotelsList();
+  const { deleteHotel: deleteOwnHotel }  = useDeleteHotel();
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   const deleteHotel = (id) => {
-    setHotels(hotels.filter((hotel) => hotel.id !== id));
+    try {
+      deleteOwnHotel(id) 
+      setHotels(hotels.filter((hotel) => hotel._id !== id));
+      setNotificationMessage("Hotel deleted successfully ✅");
+      setShowNotification(true);
+
+      setTimeout(() => {
+          setShowNotification(false);
+      }, 3000);
+    } catch (error) { 
+      console.error(error)
+    }
+
   };
 
   const showHotelDetails = (hotel) => {
-    alert(`Hotel: ${hotel.name}\nLocation: ${hotel.location}`);
+    alert(`Hotel: ${hotel.hotelName}\nLocation: ${hotel.country} ${hotel.city}`);
   };
 
   return (
@@ -26,7 +41,7 @@ export default function HotelOwnerSection() {
         ) : (
           hotels.map((hotel) => (
             <motion.div
-              key={hotel.id}
+              key={hotel._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -37,10 +52,10 @@ export default function HotelOwnerSection() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all w-full mx-auto p-6 flex flex-col items-center"
             >
-              <img src={hotel.image} alt={hotel.name} className="w-full h-56 object-cover rounded-lg mb-4" />
+              <img src={hotel.generalPhoto} alt={hotel.hotelName} className="w-full h-56 object-cover rounded-lg mb-4" />
               <div className="w-full text-center">
-                <h3 className="font-semibold text-xl text-gray-800">{hotel.name}</h3>
-                <p className="text-gray-500">{hotel.location}</p>
+                <h3 className="font-semibold text-xl text-gray-800">{hotel.hotelName}</h3>
+                <p className="text-gray-500">{hotel.country} {hotel.city} {hotel.address}</p>
               </div>
               <div className="flex gap-3 mt-4">
                 <button
@@ -50,7 +65,7 @@ export default function HotelOwnerSection() {
                   <Info size={18} /> Details
                 </button>
                 <button
-                  onClick={() => deleteHotel(hotel.id)}
+                  onClick={() => deleteHotel(hotel._id)}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg text-red-600 bg-white border border-red-500 hover:bg-red-600 hover:text-white transition-all duration-200 shadow-sm hover:shadow-md"
                 >
                   <Trash2 size={18} /> Delete
@@ -60,6 +75,11 @@ export default function HotelOwnerSection() {
           ))
         )}
       </div>
+      {showNotification && (
+        <div className="fixed right-6 bottom-20 bg-green-600 text-white px-6 py-4 rounded-xl shadow-xl z-50 opacity-90 hover:opacity-100 transition-all duration-300">
+            <p className="font-semibold">{notificationMessage}</p>
+        </div>
+    )}
     </div>
   );
 }
