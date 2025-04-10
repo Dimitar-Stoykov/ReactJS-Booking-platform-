@@ -1,19 +1,16 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
-import { Trash2 } from "lucide-react";
+import { ClockFading, Trash2 } from "lucide-react";
 import { useBookingsCount } from "../../hooks/useBookingsCount";
+import { useDeleteBookings } from "../../API/bookAPI";
 
 export default function BookingsSection() {
     const { bookings, setBookings } = useBookingsCount();
+    const { deleteBooking } = useDeleteBookings();
 
-    console.log(bookings);
-
-    const cancelBooking = (id) => {
+    const cancelBooking = async (id) => {
         setBookings(bookings.filter((booking) => booking._id !== id));
-    };
-
-    const showDetails = (booking) => {
-        alert(`Hotel: ${booking.hotelName}\nDate: ${booking.date}\nStatus: ${booking.status}`);
+        await deleteBooking(id); 
     };
 
     
@@ -51,8 +48,8 @@ export default function BookingsSection() {
                         >
                             <div>
                                 <h3 className="font-semibold text-xl text-gray-800">{booking.hotelName}</h3>
-                                <p className="text-gray-500">📅 {booking.checkIn}</p>
-                                <p className="text-gray-500">📅 {booking.checkOut}</p>
+                                <p className="text-gray-500">📅 Check-in: {booking.checkIn}</p>
+                                <p className="text-gray-500">📅 Check-out: {booking.checkOut}</p>
                                 <p className="text-gray-500">Total Price: $ {booking.totalPrice}</p>
 
                                 <p className={`font-medium ${getBookingStatus(booking.checkOut) === "Expired" ? "text-red-500" : "text-green-500"}`}>

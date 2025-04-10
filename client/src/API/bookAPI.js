@@ -1,4 +1,5 @@
 import useAuth from "../hooks/useAuth";
+import request from "../utils/request";
 
 const baseUrl = "http://localhost:3030/data/bookings";
 
@@ -22,12 +23,26 @@ export const useBookings = () => {
     const getBookings = async (userId) => { 
         const params = new URLSearchParams();
         params.append('where', `_ownerId="${userId}"`);
-        
-        return await fetch(`${baseUrl}?${params.toString()}`);
+        const result  = await request.get(`${baseUrl}?${params.toString()}`);
+        return result;
        
     }
 
     return {
         getBookings,
     }
+}
+
+
+export const useDeleteBookings = () => { 
+
+    const deleteBooking = (reservationId) => { 
+         request.delete(`${baseUrl}/${reservationId}`)
+       
+    }
+
+    return { 
+        deleteBooking,
+    }
+
 }

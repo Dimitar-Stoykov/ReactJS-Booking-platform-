@@ -13,8 +13,8 @@ export const useBookingsCount = () => {
 
         try {
             const response = await getBookings(userId);
-            const responseData = await response.json();
-            console.log(responseData);
+            const responseData = await response;
+            
             setBookings(responseData)
             
         } catch (error) {
