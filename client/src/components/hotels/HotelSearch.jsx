@@ -1,9 +1,11 @@
+import { formatDate } from "../../utils/hotelUtils";
 
 
 export default function HotelSearch({
     onSearch,
     formAction,
 }) {
+    const today = formatDate(new Date());
     const { formData, setFormData } = formAction;
 
     const handleChange = (e) => {

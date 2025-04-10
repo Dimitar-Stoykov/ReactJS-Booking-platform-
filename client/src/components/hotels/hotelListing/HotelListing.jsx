@@ -74,6 +74,7 @@ export default function HotelListing() {
                 <button
                     onClick={() => changePage((prevPage) => prevPage + 1)}
                     className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    disabled={hotels.length < 6}
                 >
                     Next
                 </button>

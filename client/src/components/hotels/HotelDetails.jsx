@@ -1,183 +1,186 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
 import { useHotel } from '../../API/hotelsAPI';
 import Spinner from '../Spinner';
 
+import { calculateBookingInfo, formatDate } from '../../utils/hotelUtils';
+import BookingConfirmation from './BookingConfirm';
+
 export default function HotelDetails() {
-    const location = useLocation();
-    const { checkIn, checkOut } = location.state || {};
-   
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [localCheckIn, setLocalCheckIn] = useState(checkIn);
-    const [localCheckOut, setLocalCheckOut] = useState(checkOut);
     const { hotelId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { checkIn, checkOut } = location.state || {};
+    const [localCheckIn, setLocalCheckIn] = useState(checkIn || '');
+    const [localCheckOut, setLocalCheckOut] = useState(checkOut || '');
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+
     const currentHotel = useHotel(hotelId);
 
-    if (!currentHotel) {
-        return <Spinner />;
-    }
+    if (!currentHotel) return <Spinner />;
 
-    const hotelImages = currentHotel.photos;
-    const basePrice = currentHotel.price;
-    const maxGuests = currentHotel.maxGuests || 2;
 
-    const checkInDate = localCheckIn;
-    const checkOutDate = localCheckOut;
+    const {
+        photos,
+        hotelName,
+        country,
+        city,
+        address,
+        description,
+        amenities,
+        price,
+        maxGuests = 2
+    } = currentHotel;
 
-    const calculateTotal = () => {
-        if (!checkInDate || !checkOutDate) return null;
 
-        const oneDay = 24 * 60 * 60 * 1000;
-        const startDate = new Date(checkInDate);
-        const endDate = new Date(checkOutDate);
-        const diffDays = Math.round(Math.abs((startDate - endDate) / oneDay));
+    const today = formatDate(new Date());
 
-        return {
-            days: diffDays,
-            total: diffDays * basePrice
-        };
-    };
-
-    const bookingInfo = calculateTotal();
-
-    const handleBookNow = () => {
-        if (!checkInDate || !checkOutDate) {
-            // Update URL with selected dates if they weren't provided initially
-            navigate(`?checkIn=${localCheckIn}&checkOut=${localCheckOut}`);
-        }
-        alert(`Booking confirmed for ${currentHotel.hotelName} from ${checkInDate} to ${checkOutDate}`);
-    };
-
-    const nextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % hotelImages.length);
-    };
-
-    const prevImage = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? hotelImages.length - 1 : prevIndex - 1
-        );
-    };
+    const bookingInfo = calculateBookingInfo(localCheckIn, localCheckOut, price);
 
     const handleCheckInChange = (e) => {
-        const newCheckInDate = e.target.value;
-        setLocalCheckIn(newCheckInDate);
+        const value = e.target.value;
+        setLocalCheckIn(value);
 
-        if (localCheckOut && new Date(localCheckOut) < new Date(newCheckInDate)) {
+        if (localCheckOut && new Date(localCheckOut) <= new Date(value)) {
             setLocalCheckOut('');
         }
     };
 
     const handleCheckOutChange = (e) => {
-        const newCheckOutDate = e.target.value;
-        if (new Date(newCheckOutDate) >= new Date(localCheckIn)) {
-            setLocalCheckOut(newCheckOutDate);
+        const value = e.target.value;
+        if (new Date(value) > new Date(localCheckIn)) {
+            setLocalCheckOut(value);
         }
     };
 
+    const handleBookNow = () => {
+        if (!localCheckIn || !localCheckOut) {
+            return;
+        }
+
+        setShowModal(true);
+    };
+
+    const confirmBooking = () => {
+        setShowModal(false);
+        alert(`Booking confirmed for ${hotelName} from ${localCheckIn} to ${localCheckOut}`);
+    };
+    
+    const cancelBooking = () => {
+        setShowModal(false);
+    };
+
+    const changeImage = (step) => {
+        setCurrentImageIndex((prev) => (prev + step + photos.length) % photos.length);
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-200 via-white to-blue-100 shadow-2xl backdrop-blur-sm border border-blue-300/40 py-8">
+        <>
+        {showModal && (
+            <BookingConfirmation
+                hotelName={hotelName}
+                checkIn={localCheckIn}
+                checkOut={localCheckOut}
+                total={bookingInfo.total}
+                onClose={cancelBooking}
+                onConfirm={confirmBooking}
+            />
+        )}
+
+        <div className="min-h-screen bg-gradient-to-r from-blue-200 via-white to-blue-100 py-8">
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl overflow-hidden">
-                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
-                    <h1 className="text-3xl font-semibold text-blue-700">{currentHotel.hotelName}</h1>
-                    <p className="text-gray-600 mt-2">{currentHotel.country}, {currentHotel.city}, {currentHotel.address}</p>
+
+
+                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all">
+                    <h1 className="text-3xl font-semibold text-blue-700">{hotelName}</h1>
+                    <p className="text-gray-600 mt-2">{country}, {city}, {address}</p>
                     <p className="text-gray-500 text-sm mt-1">Maximum occupancy: {maxGuests} guests</p>
                 </div>
 
-                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
+
+                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Room Photos</h2>
-                    <div className="relative h-96 overflow-hidden rounded-2xl bg-gray-200 flex items-center justify-center transition-all">
+                    <div className="relative h-96 rounded-2xl overflow-hidden bg-gray-200 flex items-center justify-center">
                         <img
-                            src={hotelImages[currentImageIndex]}
+                            src={photos[currentImageIndex]}
                             alt={`Room ${currentImageIndex + 1}`}
-                            className="w-full h-full object-cover rounded-2xl shadow-lg transition-all"
+                            className="w-full h-full object-cover rounded-2xl"
                         />
-                        <button
-                            onClick={prevImage}
-                            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/70 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition text-2xl"
-                        >
-                            &lt;
-                        </button>
-                        <button
-                            onClick={nextImage}
-                            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/70 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition text-2xl"
-                        >
-                            &gt;
-                        </button>
+                        <button onClick={() => changeImage(-1)} className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/70 p-3 rounded-full hover:bg-blue-600">&lt;</button>
+                        <button onClick={() => changeImage(1)} className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/70 p-3 rounded-full hover:bg-blue-600">&gt;</button>
                     </div>
                 </div>
 
-                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
+
+                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Description</h2>
-                    <p className="text-gray-600">
-                        {currentHotel.description}
-                    </p>
+                    <p className="text-gray-600">{description}</p>
                 </div>
 
-                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
+
+                <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Amenities</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {currentHotel.amenities.map(amenity => (
-                            <div key={amenity} className="flex items-center">
+                        {amenities.map((item) => (
+                            <div key={item} className="flex items-center">
                                 <span className="text-blue-500 mr-2">✔</span>
-                                <span className="text-gray-600">{amenity}</span>
+                                <span className="text-gray-600">{item}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-             
-                <div className="p-6 border-t-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
+
+                <div className="p-6 border-t-2 border-blue-300 hover:bg-blue-50 transition-all">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-6">Book Your Stay</h2>
-                    <div className="bg-white rounded-2xl shadow-xl p-6 space-y-6 border border-blue-100 hover:shadow-2xl transition-all">
-                        <div className="flex justify-between items-center">
-                            <span className="text-lg text-gray-700">Base Price</span>
-                            <span className="text-xl font-semibold text-blue-600">${basePrice}/night</span>
+
+                    <div className="bg-white rounded-2xl shadow-xl p-6 space-y-6 border border-blue-100 hover:shadow-2xl">
+                        <div className="flex justify-between text-lg text-gray-700">
+                            <span>Base Price</span>
+                            <span className="text-xl font-semibold text-blue-600">${price}/night</span>
                         </div>
+
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-600 mb-2 text-sm font-medium">Check-in</label>
+                                <label className="block text-gray-600 mb-2 text-sm">Check-in</label>
                                 <input
                                     type="date"
                                     value={localCheckIn}
                                     onChange={handleCheckInChange}
-                                    min={new Date().toISOString().split('T')[0]}
-                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                                    min={today}
+                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-600 mb-2 text-sm font-medium">Check-out</label>
+                                <label className="block text-gray-600 mb-2 text-sm">Check-out</label>
                                 <input
                                     type="date"
                                     value={localCheckOut}
                                     onChange={handleCheckOutChange}
-                                    min={localCheckIn || new Date().toISOString().split('T')[0]}
+                                    min={localCheckIn || today + 1}
                                     disabled={!localCheckIn}
-                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                                 />
                             </div>
                         </div>
 
                         {bookingInfo ? (
                             <>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between text-sm text-gray-600">
-                                        <span>Check-in:</span>
-                                        <span className="font-medium">{checkInDate}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
-                                        <span>Check-out:</span>
-                                        <span className="font-medium">{checkOutDate}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
-                                        <span>Duration:</span>
-                                        <span className="font-medium">{bookingInfo.days} nights</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm text-gray-600">
-                                        <span>Max Guests:</span>
-                                        <span className="font-medium">{maxGuests}</span>
-                                    </div>
+                                <div className="space-y-2 text-sm text-gray-600">
+                                    {[
+                                        ['Check-in', localCheckIn],
+                                        ['Check-out', localCheckOut],
+                                        ['Duration', `${bookingInfo.days} nights`],
+                                        ['Max Guests', maxGuests]
+                                    ].map(([label, value]) => (
+                                        <div key={label} className="flex justify-between">
+                                            <span>{label}:</span>
+                                            <span className="font-medium">{value}</span>
+                                        </div>
+                                    ))}
                                 </div>
 
                                 <div className="flex justify-between items-center pt-4 border-t-2 border-blue-300">
@@ -201,5 +204,7 @@ export default function HotelDetails() {
                 </div>
             </div>
         </div>
+
+        </>
     );
 }
