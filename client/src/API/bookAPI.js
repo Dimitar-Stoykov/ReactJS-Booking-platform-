@@ -15,3 +15,19 @@ export const useCreateBooking = () =>  {
     }
     
 }
+
+
+export const useBookings = () => { 
+
+    const getBookings = async (userId) => { 
+        const params = new URLSearchParams();
+        params.append('where', `_ownerId="${userId}"`);
+        
+        return await fetch(`${baseUrl}?${params.toString()}`);
+       
+    }
+
+    return {
+        getBookings,
+    }
+}

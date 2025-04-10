@@ -82,6 +82,8 @@ export default function HotelDetails() {
             setShowModal(false);
             setNotificationMessage("Your booking is successful!");
             setShowNotification(true); 
+            setLocalCheckIn('');
+            setLocalCheckOut('');
             setTimeout(() => {
                 setShowNotification(false); 
             }, 3000);
