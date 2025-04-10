@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { Camera} from "lucide-react";
-
+import { Camera } from "lucide-react";
+import { useCreateHotel } from "../../../API/hotelsAPI";
 
 export default function HotelCreate() {
+    const {createHotel} = useCreateHotel(); 
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState("");
+
     const [form, setForm] = useState({
         hotelName: "",
         generalPhoto: "",
         description: "",
         title: "",
-        amenities: [],
+        amenities: [], // Change to array
         roomDetails: "",
         address: "",
         country: "",
@@ -23,18 +27,12 @@ export default function HotelCreate() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
-
-    const handleAmenitiesChange = (e) => {
-        const { value } = e.target;
-        if (value && !form.amenities.includes(value)) {
-            setForm({ ...form, amenities: [...form.amenities, value] });
+        if (name === "amenities") {
+            // Split comma-separated values into an array
+            setForm({ ...form, amenities: value.split(",").map(item => item.trim()) });
+        } else {
+            setForm({ ...form, [name]: value });
         }
-    };
-
-    const handleRemoveAmenity = (amenity) => {
-        setForm({ ...form, amenities: form.amenities.filter((item) => item !== amenity) });
     };
 
     const handleAddPhotoUrl = () => {
@@ -51,13 +49,15 @@ export default function HotelCreate() {
         setForm({ ...form, photos: form.photos.filter((_, i) => i !== index) });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
-        setTimeout(() => {
-            alert("Hotel Created Successfully!");
-            setIsSubmitting(false);
+        
+        try { 
+            const response = await createHotel(form);
+            setNotificationMessage(`Successfully created hotel: ${form.hotelName}`);
+            setShowNotification(true);
+            setTimeout(() => setShowNotification(false), 4000);
             setForm({
                 hotelName: "",
                 generalPhoto: "",
@@ -73,20 +73,19 @@ export default function HotelCreate() {
                 maxGuests: "",
                 price: "",
             });
-        }, 2000);
+            setIsSubmitting(false);
+        } catch (error) { 
+            console.error(error);
+            setIsSubmitting(false);
+        }
     };
 
     return (
-        <div
-            className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-500 flex items-center justify-center p-6"
-     /*        style={{
-                backgroundImage: "url('https://i.ytimg.com/vi/I_2sAr9hIuc/hq720.jpg?v=661f514f&sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCvvHhQ1dG7DbqRMafUALta8OwEDQ')", // Replace with your image URL
-            }} */
-        >
+        <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-500 flex items-center justify-center p-6">
             <div className="relative w-full max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-xl z-10 border border-gray-300 m-20">
                 <h2 className="text-4xl font-serif font-semibold text-gray-800 mb-8 text-center">Create Hotel</h2>
                 <form onSubmit={handleSubmit} className="space-y-6 ">
-                    {/* Hotel Photos (URL Input) */}
+
                     <div className="flex flex-col items-center">
                         <label className="block text-gray-700 font-medium mb-2">General Photo</label>
                         <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-300 flex justify-center items-center relative">
@@ -103,8 +102,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter General Photo URL"
                             className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
+
                     <div className="mb-6">
                         <label className="block text-gray-700 font-medium mb-2">Add Photo URLs</label>
                         <div className="flex items-center space-x-4">
@@ -143,7 +144,6 @@ export default function HotelCreate() {
                         </div>
                     </div>
 
-                    {/* Hotel Name */}
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Hotel Name</label>
                         <input
@@ -153,10 +153,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter Hotel Name"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
 
-                    {/* Description */}
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Description</label>
                         <textarea
@@ -166,6 +166,7 @@ export default function HotelCreate() {
                             placeholder="Enter Hotel Description"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             rows="4"
+                            required
                         ></textarea>
                     </div>
 
@@ -177,36 +178,23 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter Hotel Client Title"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         ></textarea>
                     </div>
-                    {/* Amenities */}
+
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">Amenities</label>
+                        <label className="block text-gray-700 font-medium mb-2">Amenities (comma-separated)</label>
                         <input
                             type="text"
-                            onChange={handleAmenitiesChange}
-                            placeholder="Enter Amenity (e.g., Pool, WiFi)"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-2"
+                            name="amenities"
+                            value={form.amenities.join(", ")} // Join array to display as a comma-separated string
+                            onChange={handleInputChange}
+                            placeholder="e.g. Pool, WiFi, Breakfast"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
-                        <div className="flex flex-wrap gap-2">
-                            {form.amenities.map((amenity, index) => (
-                                <div
-                                    key={index}
-                                    className="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg flex items-center gap-2"
-                                >
-                                    {amenity}
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveAmenity(amenity)}
-                                        className="text-red-600 hover:text-red-700"
-                                    >
-                                        &times;
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
                     </div>
-                    {/* Price */}
+
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Price per Night ($)</label>
                         <input
@@ -216,9 +204,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter price per night"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
-                    {/* Room Details */}
+
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Room Details</label>
                         <textarea
@@ -228,10 +217,10 @@ export default function HotelCreate() {
                             placeholder="Enter Room Details (e.g., King bed, Sea view)"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             rows="3"
+                            required
                         ></textarea>
                     </div>
 
-                    {/* Country */}
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Country</label>
                         <input
@@ -239,12 +228,12 @@ export default function HotelCreate() {
                             name="country"
                             value={form.country}
                             onChange={handleInputChange}
-                            placeholder="Enter City"
+                            placeholder="Enter Country"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
 
-                    {/* Address */}
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Address</label>
                         <input
@@ -254,10 +243,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter Hotel Address"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
 
-                    {/* City */}
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">City</label>
                         <input
@@ -267,9 +256,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter City"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
-                    {/* Max Guests */}
+
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Max Guests</label>
                         <input
@@ -279,10 +269,10 @@ export default function HotelCreate() {
                             onChange={handleInputChange}
                             placeholder="Enter maximum number of guests"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            required
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <div className="flex justify-center">
                         <button
                             type="submit"
@@ -295,6 +285,11 @@ export default function HotelCreate() {
                     </div>
                 </form>
             </div>
+            {showNotification && (
+                <div className="fixed bottom-4 right-4 bg-green-600 text-white p-4 rounded-xl shadow-xl transform transition-all duration-300 ease-in-out z-50 opacity-90 hover:opacity-100">
+                    <p className="font-semibold">{notificationMessage}</p>
+                </div>
+            )}
         </div>
     );
 }

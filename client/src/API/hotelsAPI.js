@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 import request from "../utils/request";
 
 
@@ -67,7 +68,15 @@ export const useTreeHotels = () => {
 }
 
 
-export const useCreateHotel = (hotelData) => { 
-    return
-    
+export const useCreateHotel = () => { 
+    const { request } = useAuth();
+
+    const createHotel = async (hotelData) => { 
+       const result = await request.post(baseUrl, hotelData);
+       return result;
+    }
+
+    return { 
+        createHotel,
+    }
 } 
