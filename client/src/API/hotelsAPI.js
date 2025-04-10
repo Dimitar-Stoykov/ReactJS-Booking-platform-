@@ -6,11 +6,15 @@ const baseUrl = "http://localhost:3030/data/hotels";
 
 export const useHotels = async (skip, pageSize, searchParams = {}) => {
     try {
-        
+       
         const params = new URLSearchParams({
             offset: skip,
             pageSize: pageSize,
         });
+
+        if (searchParams) {
+            params.append('where', searchParams);
+        }
 
         const response = await fetch(`${baseUrl}?${params.toString()}`);
         

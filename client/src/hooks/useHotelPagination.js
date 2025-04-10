@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useHotels } from '../API/hotelsAPI';
 
 
@@ -8,12 +8,15 @@ export const useHotelPagination = (searchParams = {}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const pageSize = 6;  
+    
+    const prevSearchParamsRef = useRef();
+    const prevPageRef = useRef();
 
-    const fetchHotels = async (page) => {
+    const fetchHotels = async (page, searchParams) => {
         try {
             setLoading(true);
             const skip = (page - 1) * pageSize;
-            const fetchedHotels = await useHotels(skip, pageSize);
+            const fetchedHotels = await useHotels(skip, pageSize, searchParams);
             setHotels(fetchedHotels);
         } catch (err) {
             setError("Failed to load hotels");
@@ -24,8 +27,18 @@ export const useHotelPagination = (searchParams = {}) => {
     };
 
     useEffect(() => {
-        fetchHotels(page);
-    }, [page]);
+
+        const shouldFetch =
+            JSON.stringify(searchParams) !== JSON.stringify(prevSearchParamsRef.current) ||
+            page !== prevPageRef.current;
+
+        if (shouldFetch) {
+            fetchHotels(page, searchParams);
+        }
+
+        prevSearchParamsRef.current = { ...searchParams };
+        prevPageRef.current = page;
+    }, [page, searchParams])
 
     const changePage = (newPage) => {
         setPage(newPage);

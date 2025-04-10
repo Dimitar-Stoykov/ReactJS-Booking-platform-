@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HotelListItem from './HotelListItem';
 import HotelSearch from '../HotelSearch';
 
@@ -7,11 +7,26 @@ import { useHotelPagination } from '../../../hooks/useHotelPagination';
 
 
 export default function HotelListing() {
-    const { hotels, loading, error, changePage} = useHotelPagination();
+    const [searchParams, setSearchParams] = useState('');
+    const { hotels, loading, error, changePage} = useHotelPagination(searchParams);
+
+    const [formData, setFormData] = useState({
+        country: "",
+        city: "",
+        checkIn: "",
+        checkOut: "",
+        maxGuests: "",
+    });
+
+    const handleSearch = (params) => {
+        setSearchParams(params);
+        changePage(1); 
+    };
+
 
     if (loading) {
         return (
-                <Spinner />
+            <Spinner />
         );
     }
 
@@ -37,12 +52,12 @@ export default function HotelListing() {
                 </div>
             </div>
 
-            <HotelSearch />
+            <HotelSearch onSearch={handleSearch} formAction={{formData, setFormData}} />
 
-            {/* Hotel List */}
-            <HotelListItem hotels={hotels} />
+            
+            <HotelListItem hotels={hotels} dates={{checkIn: formData.checkIn, checkOut: formData.checkOut}} />
 
-            {/* Pagination Controls */}
+          
             <div className="flex justify-center mt-6 space-x-4">
                 <button
                     onClick={() => changePage(1)}

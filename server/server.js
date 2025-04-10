@@ -1358,6 +1358,7 @@
                         "good"
                     ],
                     roomDetails: "abnormal",
+                    country: "Bulgaria",
                     address: "somewwhere",
                     city: "sofia",
                     photos: [

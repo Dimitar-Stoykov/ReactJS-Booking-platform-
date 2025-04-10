@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useHotel } from '../../API/hotelsAPI';
 import Spinner from '../Spinner';
 
 export default function HotelDetails() {
+    const location = useLocation();
+    const { checkIn, checkOut } = location.state || {};
+   
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [localCheckIn, setLocalCheckIn] = useState('');
-    const [localCheckOut, setLocalCheckOut] = useState('');
+    const [localCheckIn, setLocalCheckIn] = useState(checkIn);
+    const [localCheckOut, setLocalCheckOut] = useState(checkOut);
     const { hotelId } = useParams();
-    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const currentHotel = useHotel(hotelId);
 
@@ -17,13 +19,11 @@ export default function HotelDetails() {
     }
 
     const hotelImages = currentHotel.photos;
-    const urlCheckIn = searchParams.get('checkIn');
-    const urlCheckOut = searchParams.get('checkOut');
     const basePrice = currentHotel.price;
-    const maxGuests = currentHotel.maxGuests || 2; // Default to 2 if not specified
+    const maxGuests = currentHotel.maxGuests || 2;
 
-    const checkInDate = urlCheckIn || localCheckIn;
-    const checkOutDate = urlCheckOut || localCheckOut;
+    const checkInDate = localCheckIn;
+    const checkOutDate = localCheckOut;
 
     const calculateTotal = () => {
         if (!checkInDate || !checkOutDate) return null;
@@ -42,8 +42,8 @@ export default function HotelDetails() {
     const bookingInfo = calculateTotal();
 
     const handleBookNow = () => {
-        if (!urlCheckIn || !urlCheckOut) {
-            // Update URL with selected dates if they weren't in URL initially
+        if (!checkInDate || !checkOutDate) {
+            // Update URL with selected dates if they weren't provided initially
             navigate(`?checkIn=${localCheckIn}&checkOut=${localCheckOut}`);
         }
         alert(`Booking confirmed for ${currentHotel.hotelName} from ${checkInDate} to ${checkOutDate}`);
@@ -59,12 +59,10 @@ export default function HotelDetails() {
         );
     };
 
-    // Ensure check-out date is not before check-in date
     const handleCheckInChange = (e) => {
         const newCheckInDate = e.target.value;
         setLocalCheckIn(newCheckInDate);
 
-        // Set check-out date min value to the selected check-in date
         if (localCheckOut && new Date(localCheckOut) < new Date(newCheckInDate)) {
             setLocalCheckOut('');
         }
@@ -80,14 +78,12 @@ export default function HotelDetails() {
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-200 via-white to-blue-100 shadow-2xl backdrop-blur-sm border border-blue-300/40 py-8">
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl overflow-hidden">
-                {/* Hotel Header Section */}
                 <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
                     <h1 className="text-3xl font-semibold text-blue-700">{currentHotel.hotelName}</h1>
-                    <p className="text-gray-600 mt-2">{currentHotel.address} {currentHotel.city}</p>
+                    <p className="text-gray-600 mt-2">{currentHotel.country}, {currentHotel.city}, {currentHotel.address}</p>
                     <p className="text-gray-500 text-sm mt-1">Maximum occupancy: {maxGuests} guests</p>
                 </div>
 
-                {/* Hotel Photos Section */}
                 <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Room Photos</h2>
                     <div className="relative h-96 overflow-hidden rounded-2xl bg-gray-200 flex items-center justify-center transition-all">
@@ -111,7 +107,6 @@ export default function HotelDetails() {
                     </div>
                 </div>
 
-                {/* Hotel Description Section */}
                 <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Description</h2>
                     <p className="text-gray-600">
@@ -119,7 +114,6 @@ export default function HotelDetails() {
                     </p>
                 </div>
 
-                {/* Amenities Section */}
                 <div className="p-6 border-b-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">Amenities</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -132,7 +126,7 @@ export default function HotelDetails() {
                     </div>
                 </div>
 
-                {/* Booking Section */}
+             
                 <div className="p-6 border-t-2 border-blue-300 hover:bg-blue-50 transition-all ease-in-out duration-300">
                     <h2 className="text-2xl font-semibold text-blue-700 mb-6">Book Your Stay</h2>
                     <div className="bg-white rounded-2xl shadow-xl p-6 space-y-6 border border-blue-100 hover:shadow-2xl transition-all">
@@ -141,31 +135,29 @@ export default function HotelDetails() {
                             <span className="text-xl font-semibold text-blue-600">${basePrice}/night</span>
                         </div>
 
-                        {!urlCheckIn && !urlCheckOut && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-gray-600 mb-2 text-sm font-medium">Check-in</label>
-                                    <input
-                                        type="date"
-                                        value={localCheckIn}
-                                        onChange={handleCheckInChange}
-                                        min={new Date().toISOString().split('T')[0]}
-                                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2 text-sm font-medium">Check-out</label>
-                                    <input
-                                        type="date"
-                                        value={localCheckOut}
-                                        onChange={handleCheckOutChange}
-                                        min={localCheckIn || new Date().toISOString().split('T')[0]}
-                                        disabled={!localCheckIn}
-                                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
-                                    />
-                                </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-gray-600 mb-2 text-sm font-medium">Check-in</label>
+                                <input
+                                    type="date"
+                                    value={localCheckIn}
+                                    onChange={handleCheckInChange}
+                                    min={new Date().toISOString().split('T')[0]}
+                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                                />
                             </div>
-                        )}
+                            <div>
+                                <label className="block text-gray-600 mb-2 text-sm font-medium">Check-out</label>
+                                <input
+                                    type="date"
+                                    value={localCheckOut}
+                                    onChange={handleCheckOutChange}
+                                    min={localCheckIn || new Date().toISOString().split('T')[0]}
+                                    disabled={!localCheckIn}
+                                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+                                />
+                            </div>
+                        </div>
 
                         {bookingInfo ? (
                             <>
@@ -201,16 +193,8 @@ export default function HotelDetails() {
                                 </button>
                             </>
                         ) : (
-                            !urlCheckIn && !urlCheckOut && (
-                                <p className="text-gray-600 italic text-center">
-                                    Please select your check-in and check-out dates.
-                                </p>
-                            )
-                        )}
-
-                        {urlCheckIn && urlCheckOut && !bookingInfo && (
-                            <p className="text-red-500 italic text-center">
-                                Please select valid check-in and check-out dates
+                            <p className="text-gray-600 italic text-center">
+                                Please select your check-in and check-out dates.
                             </p>
                         )}
                     </div>
