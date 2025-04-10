@@ -6,18 +6,23 @@ import Spinner from '../Spinner';
 
 import { calculateBookingInfo, formatDate } from '../../utils/hotelUtils';
 import BookingConfirmation from './BookingConfirm';
+import { useCreateBooking } from '../../API/bookAPI';
 
 export default function HotelDetails() {
     const { hotelId } = useParams();
+    const currentHotel = useHotel(hotelId);
     const navigate = useNavigate();
     const location = useLocation();
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    
     const { checkIn, checkOut } = location.state || {};
     const [localCheckIn, setLocalCheckIn] = useState(checkIn || '');
     const [localCheckOut, setLocalCheckOut] = useState(checkOut || '');
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [showModal, setShowModal] = useState(false);
-
-    const currentHotel = useHotel(hotelId);
+    
+    const { create: createBooking } = useCreateBooking();
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState("");
 
     if (!currentHotel) return <Spinner />;
 
@@ -38,7 +43,7 @@ export default function HotelDetails() {
     const today = formatDate(new Date());
 
     const bookingInfo = calculateBookingInfo(localCheckIn, localCheckOut, price);
-
+    
     const handleCheckInChange = (e) => {
         const value = e.target.value;
         setLocalCheckIn(value);
@@ -63,9 +68,31 @@ export default function HotelDetails() {
         setShowModal(true);
     };
 
-    const confirmBooking = () => {
-        setShowModal(false);
-        alert(`Booking confirmed for ${hotelName} from ${localCheckIn} to ${localCheckOut}`);
+    const confirmBookingHandler = async () => {
+
+        const bookingData = {
+            hotelName,
+            checkIn: localCheckIn,
+            checkOut: localCheckOut,
+            totalPrice: bookingInfo.total
+        }
+
+       try {
+            await createBooking(bookingData); 
+            setShowModal(false);
+            setNotificationMessage("Your booking is successful!");
+            setShowNotification(true); 
+            setTimeout(() => {
+                setShowNotification(false); 
+            }, 3000);
+        } catch (error) {
+            console.error("Booking failed:", error);
+            setNotificationMessage("Booking failed. Please try again.");
+            setShowNotification(true);
+            setTimeout(() => {
+                setShowNotification(false);
+            }, 3000);
+        }
     };
     
     const cancelBooking = () => {
@@ -85,7 +112,7 @@ export default function HotelDetails() {
                 checkOut={localCheckOut}
                 total={bookingInfo.total}
                 onClose={cancelBooking}
-                onConfirm={confirmBooking}
+                onConfirm={confirmBookingHandler}
             />
         )}
 
@@ -200,11 +227,18 @@ export default function HotelDetails() {
                                 Please select your check-in and check-out dates.
                             </p>
                         )}
+
+                         {showNotification && (
+                            <div className="fixed bottom-4 right-4 bg-green-600 text-white p-4 rounded-xl shadow-xl transform transition-all duration-300 ease-in-out z-50 opacity-90 hover:opacity-100">
+                                <p className="font-semibold">{notificationMessage}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
 
+        
         </>
     );
 }

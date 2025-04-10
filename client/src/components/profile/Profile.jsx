@@ -55,17 +55,7 @@ function ProfileSection() {
     <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-3xl mx-auto">
       <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">Profile</h2>
 
-      {/* Profile Image */}
-      <div className="flex flex-col items-center gap-3 mb-8">
-        <img
-          src="https://via.placeholder.com/100"
-          alt="Profile"
-          className="w-24 h-24 rounded-full border-4 border-purple-300"
-        />
-        <button className="text-sm text-purple-500 hover:underline">Change Photo</button>
-      </div>
-
-      {/* Form Fields */}
+     
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {[
           { label: "Full Name", name: "name" },
@@ -85,7 +75,7 @@ function ProfileSection() {
         ))}
       </div>
 
-      {/* Save Button */}
+     
       <div className="flex justify-center mt-8">
         <button className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition shadow-md">
           Save Changes
@@ -135,18 +125,15 @@ function BookingsSection() {
               <div>
                 <h3 className="font-semibold text-xl text-gray-800">{booking.hotel}</h3>
                 <p className="text-gray-500">📅 {booking.date}</p>
+                <p className="text-gray-500">📅 {booking.date}</p>
+                <p className="text-gray-500">Booking price </p>
                 <p className={`font-medium ${booking.status === "Cancelled" ? "text-red-500" : "text-green-500"}`}>
                   {booking.status}
                 </p>
               </div>
 
               <div className="flex gap-3">
-                <button
-                  onClick={() => showDetails(booking)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-blue-600 bg-white border border-blue-500 hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm hover:shadow-md"
-                >
-                  <Info size={18} /> Details
-                </button>
+     
 
                 <button
                   onClick={() => cancelBooking(booking.id)}
