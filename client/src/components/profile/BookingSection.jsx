@@ -7,11 +7,22 @@ import { useDeleteBookings } from "../../API/bookAPI";
 export default function BookingsSection() {
     const { bookings, setBookings } = useBookingsCount();
     const { deleteBooking } = useDeleteBookings();
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState("");
 
-    const cancelBooking = async (id) => {
+
+    const cancelBooking = (id) => {
         setBookings(bookings.filter((booking) => booking._id !== id));
-        await deleteBooking(id); 
+        deleteBooking(id);
+
+        setNotificationMessage("Booking deleted successfully ✅");
+        setShowNotification(true);
+
+        setTimeout(() => {
+            setShowNotification(false);
+        }, 3000);
     };
+
 
     
     const getBookingStatus = (checkOutDate) => {
@@ -26,6 +37,7 @@ export default function BookingsSection() {
     };
 
     return (
+        <>
         <div className="bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-lg w-full max-w-4xl mx-auto border border-gray-200">
             <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">My Bookings</h2>
 
@@ -70,7 +82,15 @@ export default function BookingsSection() {
                         </motion.div>
                     ))
                 )}
+
             </div>
         </div>
+        
+        {showNotification && (
+            <div className="fixed right-6 bottom-20 bg-green-600 text-white px-6 py-4 rounded-xl shadow-xl z-50 opacity-90 hover:opacity-100 transition-all duration-300">
+                <p className="font-semibold">{notificationMessage}</p>
+            </div>
+        )}
+        </>
     );
 }
