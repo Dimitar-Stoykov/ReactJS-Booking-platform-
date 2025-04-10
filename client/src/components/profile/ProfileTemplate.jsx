@@ -9,7 +9,7 @@ export default function ProfileLayout() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar - appears only once */}
+     
       <div className="w-64 bg-gray-800 text-white p-5 flex flex-col">
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2">Hello Jesse</h2>
@@ -35,7 +35,7 @@ export default function ProfileLayout() {
         </nav>
       </div>
 
-      {/* Content area - where pages will render */}
+      
       <div className="flex-1 p-8">
         <Outlet />
       </div>

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { motion } from 'framer-motion';
+
 import { BarChart2, CalendarCheck, User } from "lucide-react";
 
 export default function SideBar() {
     return (
       <>
-        {/* Sidebar */}
+        
         <aside className="w-64 bg-white shadow-lg p-6">
           <h2 className="text-2xl font-bold text-purple-600 mb-6">My Account</h2>
           <nav className="space-y-4">

@@ -16,7 +16,7 @@ export default function BookingsSection() {
         alert(`Hotel: ${booking.hotelName}\nDate: ${booking.date}\nStatus: ${booking.status}`);
     };
 
-    // Function to determine the booking status based on checkOut date
+    
     const getBookingStatus = (checkOutDate) => {
         const today = new Date();
         const checkOut = new Date(checkOutDate);
