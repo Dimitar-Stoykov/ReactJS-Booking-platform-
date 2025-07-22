@@ -23,8 +23,14 @@ export const useBookings = () => {
     const getBookings = async (userId) => { 
         const params = new URLSearchParams();
         params.append('where', `_ownerId="${userId}"`);
-        const result  = await request.get(`${baseUrl}?${params.toString()}`);
-        return result;
+        try { 
+            const result  = await request.get(`${baseUrl}?${params.toString()}`);
+
+            return result || [];
+        }catch(error){ 
+            console.error("Error fetching bookings", error);
+            return [];
+        }
        
     }
 

@@ -22,7 +22,7 @@ export default function Login() {
             userLoginHandler(newAuthData);
             
 
-            navigate("/");
+            navigate(-1 || "/");
         } catch (err) { 
             console.error(err.message)
         }

@@ -6,15 +6,27 @@ export default function ProfilePage() {
   const { bookings } = useBookingsCount();
 
   const today = new Date();
+  let availableCount = 0;
+  let expiredCount = 0; 
 
   
-  const availableCount = bookings.filter(
-    booking => new Date(booking.checkOut) >= today
-  ).length;
+  
+  
+  if (bookings && bookings.length > 0){ 
+     availableCount = bookings.filter(
+      booking => new Date(booking.checkOut) >= today
+    ).length;
 
-  const expiredCount = bookings.filter(
+     expiredCount = bookings.filter(
     booking => new Date(booking.checkOut) < today
   ).length;
+
+  
+}
+
+
+
+
 
   
   return (
@@ -39,7 +51,7 @@ export default function ProfilePage() {
           <div className="text-sm text-gray-500">Active Bookings</div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 text-center">
-          <div className="text-3xl font-bold text-gray-800 mb-2">{bookings.length}</div>
+          <div className="text-3xl font-bold text-gray-800 mb-2">{bookings.length || 0}</div>
           <div className="text-sm text-gray-500">All Bookings</div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 text-center">

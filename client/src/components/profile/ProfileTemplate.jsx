@@ -1,6 +1,9 @@
 import { Outlet, Link } from 'react-router-dom';
+import { useUserContext } from '../../contexts/UserContext';
 
 export default function ProfileLayout() {
+  const {username, email} = useUserContext();
+
   const menuItems = [
     { name: 'Profile', path: '/profile', icon: '📝' },
     { name: 'Bookings', path: 'bookings', icon: '📅' },
@@ -12,7 +15,7 @@ export default function ProfileLayout() {
      
       <div className="w-64 bg-gray-800 text-white p-5 flex flex-col">
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Hello Jesse</h2>
+          <h2 className="text-xl font-semibold mb-2">Hello {username ? (username) : (email)}</h2>
           <p className="text-gray-300 text-sm leading-relaxed">
             Manage your profile, bookings, and hotels
           </p>

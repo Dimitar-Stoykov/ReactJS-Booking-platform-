@@ -25,7 +25,7 @@ export const useOwnHotelsList = () => {
         fetchHotels();
     }, [userId]);
     return {
-        onwHotels,
+        ownHotels: onwHotels,
         setOwnHotels,
 
     }

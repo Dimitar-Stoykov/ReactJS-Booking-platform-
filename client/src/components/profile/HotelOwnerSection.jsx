@@ -7,7 +7,7 @@ import { useDeleteHotel } from "../../API/hotelsAPI";
 
 
 export default function HotelOwnerSection() {
-  const {onwHotels: hotels, setOwnHotels: setHotels} = useOwnHotelsList();
+  const {ownHotels: hotels, setOwnHotels: setHotels} = useOwnHotelsList();
   const { deleteHotel: deleteOwnHotel }  = useDeleteHotel();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");

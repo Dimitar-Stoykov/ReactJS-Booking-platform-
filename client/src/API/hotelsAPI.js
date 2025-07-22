@@ -52,7 +52,7 @@ export const useHotel = (hotelId) => {
 
 export const useTreeHotels = () => {
     const [latestTreeHotels, setLatestTreeHotels] = useState([]);
-    const {isAuthenticated} = useAuth(); 
+    // const {isAuthenticated} = useAuth(); 
     useEffect(() => {
         const searchParams = new URLSearchParams({
             sortBy: '_createdOn desc',
@@ -62,7 +62,7 @@ export const useTreeHotels = () => {
 
         request.get(`${baseUrl}?${searchParams.toString()}`)
             .then(setLatestTreeHotels)
-    }, [isAuthenticated]);
+    }, []);
 
     return [latestTreeHotels];
 }

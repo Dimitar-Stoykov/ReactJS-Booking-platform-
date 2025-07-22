@@ -5,7 +5,7 @@ import { useBookingsCount } from "../../hooks/useBookingsCount";
 import { useDeleteBookings } from "../../API/bookAPI";
 
 export default function BookingsSection() {
-    const { bookings, setBookings } = useBookingsCount();
+    const { bookings, setBookings } = useBookingsCount([]);
     const { deleteBooking } = useDeleteBookings();
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState("");
@@ -35,16 +35,18 @@ export default function BookingsSection() {
             return "Available"; 
         }
     };
-
+        
     return (
         <>
         <div className="bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-lg w-full max-w-4xl mx-auto border border-gray-200">
             <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">My Bookings</h2>
 
             <div className="space-y-6">
-                {bookings.length === 0 ? (
+                {Array.isArray(bookings) && bookings.length === 0  ? (
+                    
                     <p className="text-gray-500 text-center">No bookings found.</p>
                 ) : (
+                    Array.isArray(bookings) &&
                     bookings.map((booking) => (
                         <motion.div
                             key={booking._id}
