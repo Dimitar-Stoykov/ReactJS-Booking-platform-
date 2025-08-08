@@ -6,6 +6,7 @@ export default function HotelCreate() {
     const {createHotel} = useCreateHotel(); 
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState("");
+    const [color, setColor] = useState('')
 
     const [form, setForm] = useState({
         hotelName: "",
@@ -28,7 +29,6 @@ export default function HotelCreate() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === "amenities") {
-            // Split comma-separated values into an array
             setForm({ ...form, amenities: value.split(",").map(item => item.trim()) });
         } else {
             setForm({ ...form, [name]: value });
@@ -55,7 +55,14 @@ export default function HotelCreate() {
         
         try { 
             const response = await createHotel(form);
-            setNotificationMessage(`Successfully created hotel: ${form.hotelName}`);
+            if (response.code >= 200 && response.code <400) {
+                 setNotificationMessage(`Successfully created hotel: ${form.hotelName}`);
+                 setColor('green')
+            } else {
+                setNotificationMessage(`Cannot create hotel: ${response.message}`);
+                setColor('red')
+            }
+            
             setShowNotification(true);
             setTimeout(() => setShowNotification(false), 4000);
             setForm({
@@ -286,10 +293,13 @@ export default function HotelCreate() {
                 </form>
             </div>
             {showNotification && (
-                <div className="fixed bottom-4 right-4 bg-green-600 text-white p-4 rounded-xl shadow-xl transform transition-all duration-300 ease-in-out z-50 opacity-90 hover:opacity-100">
-                    <p className="font-semibold">{notificationMessage}</p>
-                </div>
-            )}
+                    <div
+                        className={`fixed bottom-4 right-4 text-white p-4 rounded-xl shadow-xl transform transition-all duration-300 ease-in-out z-50 opacity-90 hover:opacity-100 
+                        ${color === "red" ? "bg-red-600" : "bg-green-600"}`}
+                    >
+                        <p className="font-semibold">{notificationMessage}</p>
+                    </div>
+                )}
         </div>
     );
 }
