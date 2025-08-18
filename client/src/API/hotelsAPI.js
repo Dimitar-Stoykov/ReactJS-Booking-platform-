@@ -78,6 +78,7 @@ export const useCreateHotel = () => {
 
     return { 
         createHotel,
+        
     }
 } 
 

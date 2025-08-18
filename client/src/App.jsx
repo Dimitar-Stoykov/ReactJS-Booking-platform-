@@ -19,13 +19,14 @@ import HotelOwnerSection from './components/profile/HotelOwnerSection';
 import ProfileLayout from './components/profile/ProfileTemplate';
 import ProfilePage from './components/profile/ProfileSection';
 
-
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {
     return (
-        <>
+        <>  
+        <ToastContainer position="bottom-right" autoClose={3000} /> 
             <UserProvider> 
                 <Navigation />
                 <main className="flex-1 min-h-screen">
@@ -53,7 +54,7 @@ function App() {
                         </Routes>
                    
                 </main>
-
+                
                 </UserProvider> 
                 <footer className="relative z-10 left-0 right-0 z-10 p-5 text-center text-blue-200 bg-gray-900 animate-fade-in">
                     <p>&copy; 2023 BookEase. All rights reserved.</p>
