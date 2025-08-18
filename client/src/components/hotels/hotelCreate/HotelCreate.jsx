@@ -75,7 +75,7 @@ export default function HotelCreateMultiStep() {
                     price: "",
                 });
                 setStep(1);
-                navigate("/destinations")
+                
             } else {
                 toast.error(`Cannot create hotel: ${response.message}`);
             }
