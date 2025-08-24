@@ -14,6 +14,7 @@ const request = async (method, url, data, options = {}) => {
                 ...options.headers,
             },
         }
+        
     }
 
     if (data) {

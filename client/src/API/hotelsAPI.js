@@ -52,7 +52,7 @@ export const useHotel = (hotelId) => {
 
 export const useTreeHotels = () => {
     const [latestTreeHotels, setLatestTreeHotels] = useState([]);
-    // const {isAuthenticated} = useAuth(); 
+   
     useEffect(() => {
         const searchParams = new URLSearchParams({
             sortBy: '_createdOn desc',

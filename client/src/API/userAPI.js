@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useUserContext } from "../contexts/UserContext";
+import { UserContext, useUserContext } from "../contexts/UserContext";
 import request from "../utils/request";
 
 
@@ -54,7 +54,9 @@ export const useLogout = () => {
         };
 
         request.get(`${baseUrl}/logout`, null, options)
-            .finally(userLogoutHandler);
+            .finally(
+                userLogoutHandler
+            );
     }, [accessToken, userLogoutHandler]);
 
 
