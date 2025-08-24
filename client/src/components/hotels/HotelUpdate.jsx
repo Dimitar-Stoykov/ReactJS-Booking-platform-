@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import HotelCreate from '../../components/hotels/hotelCreate/HotelCreate'
 import { useHotel, useUpdateHotel } from "../../API/hotelsAPI";
 import Spinner from "../Spinner";
 import { useUserContext } from "../../contexts/UserContext";

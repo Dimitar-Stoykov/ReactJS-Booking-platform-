@@ -21,33 +21,29 @@ const DEFAULTS = {
   price: "",
 };
 
-/**
- * Backward-compatible multi-step form.
- *
- * - If you DON'T pass props: works like your old component (create only).
- * - If you DO pass props (mode, initialValues, onSubmit, submitLabel): supports edit too.
- */
+
+
 export default function HotelCreateMultiStep({
-  mode = "create",            // "create" | "edit"
-  initialValues = null,       // prefill data when editing
-  onSubmit,                   // async (form) => void (create/update)
-  submitLabel,                // optional override button text
+  mode = "create",            
+  initialValues = null,       
+  onSubmit,                   
+  submitLabel,                
 }) {
   const navigate = useNavigate();
-  const { createHotel } = useCreateHotel(); // used only when onSubmit not provided
+  const { createHotel } = useCreateHotel(); 
 
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [form, setForm] = useState(DEFAULTS);
 
-  // Hydrate when initialValues arrive (edit mode)
+ 
   useEffect(() => {
     if (!initialValues) return;
     setForm(prev => ({
       ...DEFAULTS,
       ...initialValues,
-      // ensure correct shapes for inputs
+     
       amenities: Array.isArray(initialValues.amenities)
         ? initialValues.amenities
         : (typeof initialValues.amenities === "string"
@@ -94,14 +90,13 @@ export default function HotelCreateMultiStep({
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const internalCreate = async () => {
-    // Old behavior (create only) when no onSubmit is given
+
     const response = await createHotel(form);
     if (response) {
       toast.success(`Successfully created hotel: ${form.hotelName}`);
       setForm(DEFAULTS);
       setStep(1);
-      // If you want to redirect after create, uncomment:
-      // navigate(`/hotels/${response._id}`);
+
     } else {
       toast.error("Cannot create hotel.");
     }
@@ -111,19 +106,19 @@ export default function HotelCreateMultiStep({
     setIsSubmitting(true);
     try {
       if (onSubmit) {
-        // Delegate to caller (create OR update)
+        
         await onSubmit(form);
         if (mode === "create") {
           setForm(DEFAULTS);
           setStep(1);
         }
       } else {
-        // Backward compatible: create here
+        
         await internalCreate();
       }
     } catch (err) {
       toast.error(mode === "edit" ? "Update failed." : "An error occurred while creating hotel.");
-      // console.error(err);
+      
     } finally {
       setIsSubmitting(false);
     }
@@ -143,7 +138,7 @@ export default function HotelCreateMultiStep({
           }}
           className="space-y-6"
         >
-          {/* Step 1: Photos + basic info */}
+       
           {step === 1 && (
             <>
               <div className="flex flex-col items-center">
