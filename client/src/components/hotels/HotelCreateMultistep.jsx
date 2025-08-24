@@ -24,31 +24,31 @@ const DEFAULTS = {
 
 
 export default function HotelCreateMultiStep({
-  mode = "create",            
-  initialValues = null,       
-  onSubmit,                   
-  submitLabel,                
+  mode = "create",
+  initialValues = null,
+  onSubmit,
+  submitLabel,
 }) {
   const navigate = useNavigate();
-  const { createHotel } = useCreateHotel(); 
+  const { createHotel } = useCreateHotel();
 
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [form, setForm] = useState(DEFAULTS);
 
- 
+
   useEffect(() => {
     if (!initialValues) return;
     setForm(prev => ({
       ...DEFAULTS,
       ...initialValues,
-     
+
       amenities: Array.isArray(initialValues.amenities)
         ? initialValues.amenities
         : (typeof initialValues.amenities === "string"
-            ? initialValues.amenities.split(",").map(s => s.trim()).filter(Boolean)
-            : []),
+          ? initialValues.amenities.split(",").map(s => s.trim()).filter(Boolean)
+          : []),
       photos: Array.isArray(initialValues.photos) ? initialValues.photos : [],
       maxGuests: initialValues.maxGuests?.toString?.() ?? "",
       price: initialValues.price?.toString?.() ?? "",
@@ -106,19 +106,19 @@ export default function HotelCreateMultiStep({
     setIsSubmitting(true);
     try {
       if (onSubmit) {
-        
+
         await onSubmit(form);
         if (mode === "create") {
           setForm(DEFAULTS);
           setStep(1);
         }
       } else {
-        
+
         await internalCreate();
       }
     } catch (err) {
       toast.error(mode === "edit" ? "Update failed." : "An error occurred while creating hotel.");
-      
+
     } finally {
       setIsSubmitting(false);
     }
@@ -138,7 +138,7 @@ export default function HotelCreateMultiStep({
           }}
           className="space-y-6"
         >
-       
+
           {step === 1 && (
             <>
               <div className="flex flex-col items-center">
@@ -337,7 +337,7 @@ export default function HotelCreateMultiStep({
           )}
 
           {/* Footer buttons */}
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-end gap-4 mt-6">
             {step > 1 && (
               <button
                 type="button"
@@ -354,8 +354,8 @@ export default function HotelCreateMultiStep({
             >
               {step === 3
                 ? (isSubmitting
-                    ? (mode === "edit" ? "Updating..." : "Creating...")
-                    : (submitLabel || (mode === "edit" ? "Save changes" : "Create Hotel")))
+                  ? (mode === "edit" ? "Updating..." : "Creating...")
+                  : (submitLabel || (mode === "edit" ? "Save changes" : "Create Hotel")))
                 : "Next"}
             </button>
           </div>
