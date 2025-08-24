@@ -18,6 +18,7 @@ import BookingsSection from './components/profile/BookingSection';
 import HotelOwnerSection from './components/profile/HotelOwnerSection';
 import ProfileLayout from './components/profile/ProfileTemplate';
 import ProfilePage from './components/profile/ProfileSection';
+import HotelUpdate from './components/hotels/HotelUpdate';
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -42,6 +43,7 @@ function App() {
                                 <Route path="/destinations" element={<HotelListing />} />
                                 <Route path="/hotels/:hotelId/details" element={<HotelDetails />} />
                                 <Route path="/hotels/create" element={<HotelCreate />} /> 
+                                <Route path="/hotels/:hotelId/edit" element={<HotelUpdate />} /> 
 
                                 <Route path="/profile" element={<ProfileLayout />}>
                                     <Route index element={<ProfilePage />} />

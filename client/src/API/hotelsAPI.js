@@ -110,3 +110,15 @@ return {
 }
 
 }
+
+
+export const useUpdateHotel = () => {
+  const { request } = useAuth();
+
+  const updateHotel = async (id, payload) => {
+    const result = await request.put(`${baseUrl}/${id}`, payload)
+    return result;
+  };
+
+  return { updateHotel };
+};
